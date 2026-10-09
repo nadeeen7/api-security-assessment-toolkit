@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; base-uri 'none'; form-action 'none'">
+<title>API Security Assessment</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#eff3f8;color:#17253a;font:16px/1.6 system-ui,sans-serif}main{max-width:1140px;margin:auto;padding:40px 24px}header{background:#152842;color:white;padding:32px;border-radius:16px}h1{font-size:32px;line-height:1.2;margin:8px 0}h2{margin:32px 0 12px}h3{margin:0 0 12px}.eyebrow{color:#96d9d3;font-size:13px;letter-spacing:2px}.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:24px 0}.card,article,.panel{background:white;border:1px solid #d7e0eb;border-radius:12px;padding:20px}.card strong{display:block;font-size:30px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;background:white}th,td{padding:12px;text-align:left;vertical-align:top;border-bottom:1px solid #d7e0eb}th{background:#e1e9f2}article{margin:16px 0;border-left:5px solid #55758a}.badge{display:inline-block;border-radius:20px;background:#e9eef5;padding:4px 12px;font-weight:650;font-size:13px}.High{background:#ffe3df;color:#90271e}.Medium{background:#fff0ce;color:#734e00}.Low{background:#e0f1ff;color:#154b70}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:16px;border-radius:8px;font-size:13px}p,td{overflow-wrap:anywhere}.muted{color:#51657b}footer{margin-top:30px;font-size:13px;color:#51657b}@media(max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}main{padding:16px}h1{font-size:26px}}@media print{body{background:white}main{padding:0}article{break-inside:avoid}header{color:#17253a;background:white;border:1px solid #ccc}}
+</style></head><body><main><header><div class="eyebrow">AUTHORIZED ASSESSMENT • CONTROLLED TESTING</div><h1>API Security Assessment</h1><p>http://127.0.0.1:35945</p><p>2026-10-07T07:19:38.635768+00:00</p></header>
+<div class="cards"><div class="card"><span>Critical</span><strong>0</strong></div><div class="card"><span>High</span><strong>1</strong></div><div class="card"><span>Medium</span><strong>2</strong></div><div class="card"><span>Low</span><strong>0</strong></div><div class="card"><span>Informational</span><strong>13</strong></div></div>
+<section class="panel"><h3>Scope</h3><p>SYNTHETIC LOCAL-LAB EXAMPLE — generated during verification. Supplied paths on one configured origin; explicit two-user object and rate checks only when requested. No crawling or guessing.</p><h3>Methodology</h3><p>Documentation review; serial GET/OPTIONS observations; optional authenticated comparisons, one BOLA case, offline JWT inspection and a bounded rate sample.</p></section>
+<h2>Endpoint summary</h2><div class="table-wrap"><table><thead><tr><th>Method</th><th>Endpoint</th><th>Authentication</th><th>Parameters</th></tr></thead><tbody><tr><td>GET</td><td>/api/public</td><td>Anonymous allowed by documentation</td><td>[]</td></tr><tr><td>GET</td><td>/api/me</td><td>Required by documentation</td><td>[]</td></tr><tr><td>GET</td><td>/api/protected</td><td>Required by documentation</td><td>[]</td></tr><tr><td>GET</td><td>/api/auth-missing</td><td>Required by documentation</td><td>[]</td></tr><tr><td>GET</td><td>/api/cors</td><td>Required by documentation</td><td>[]</td></tr><tr><td>GET</td><td>/api/html</td><td>Anonymous allowed by documentation</td><td>[]</td></tr><tr><td>GET</td><td>/api/search</td><td>Anonymous allowed by documentation</td><td>[{&#39;name&#39;: &#39;q&#39;, &#39;in&#39;: &#39;query&#39;, &#39;type&#39;: &#39;string&#39;, &#39;required&#39;: False}, {&#39;name&#39;: &#39;limit&#39;, &#39;in&#39;: &#39;query&#39;, &#39;type&#39;: &#39;integer&#39;, &#39;required&#39;: False}]</td></tr><tr><td>GET</td><td>/api/objects/{object_id}</td><td>Required by documentation</td><td>[{&#39;name&#39;: &#39;object_id&#39;, &#39;in&#39;: &#39;path&#39;, &#39;type&#39;: &#39;integer&#39;, &#39;required&#39;: True}]</td></tr><tr><td>GET</td><td>/api/safe-objects/{object_id}</td><td>Required by documentation</td><td>[{&#39;name&#39;: &#39;object_id&#39;, &#39;in&#39;: &#39;path&#39;, &#39;type&#39;: &#39;integer&#39;, &#39;required&#39;: True}]</td></tr><tr><td>POST</td><td>/api/login</td><td>Anonymous allowed by documentation</td><td>[{&#39;name&#39;: &#39;username&#39;, &#39;in&#39;: &#39;body&#39;, &#39;type&#39;: &#39;string&#39;, &#39;required&#39;: True}, {&#39;name&#39;: &#39;password&#39;, &#39;in&#39;: &#39;body&#39;, &#39;type&#39;: &#39;string&#39;, &#39;required&#39;: True}]</td></tr></tbody></table></div>
+<h2>Findings · 16</h2><article><h3>1. Operation permits anonymous access in documentation</h3><span class="badge Informational">Informational</span> <span class="badge">Low confidence</span><p class="muted">OpenAPI · GET /api/public · Documentation finding</p><p>This may be intentional for a public operation.</p><p><b>Severity rationale:</b> Documentation is not evidence of deployed behavior.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "anonymous_allowed": true
+}</pre></details><p><b>Recommendation:</b> Confirm intended access with the API owner.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>2. Operation permits anonymous access in documentation</h3><span class="badge Informational">Informational</span> <span class="badge">Low confidence</span><p class="muted">OpenAPI · GET /api/html · Documentation finding</p><p>This may be intentional for a public operation.</p><p><b>Severity rationale:</b> Documentation is not evidence of deployed behavior.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "anonymous_allowed": true
+}</pre></details><p><b>Recommendation:</b> Confirm intended access with the API owner.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>3. Operation permits anonymous access in documentation</h3><span class="badge Informational">Informational</span> <span class="badge">Low confidence</span><p class="muted">OpenAPI · GET /api/search · Documentation finding</p><p>This may be intentional for a public operation.</p><p><b>Severity rationale:</b> Documentation is not evidence of deployed behavior.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "anonymous_allowed": true
+}</pre></details><p><b>Recommendation:</b> Confirm intended access with the API owner.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>4. Operation permits anonymous access in documentation</h3><span class="badge Informational">Informational</span> <span class="badge">Low confidence</span><p class="muted">OpenAPI · POST /api/login · Documentation finding</p><p>This may be intentional for a public operation.</p><p><b>Severity rationale:</b> Documentation is not evidence of deployed behavior.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "anonymous_allowed": true
+}</pre></details><p><b>Recommendation:</b> Confirm intended access with the API owner.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>5. JWT configuration review</h3><span class="badge Informational">Informational</span> <span class="badge">Low confidence</span><p class="muted">JWT · N/A local token · JWT configuration finding</p><p>Decoded claims are untrusted. This is a JWT configuration finding, not a confirmed vulnerability. No server acceptance or signature validation was tested.</p><p><b>Severity rationale:</b> Documentation is not evidence of deployed behavior.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "algorithm": "HS256",
+  "issues": [],
+  "signature_verified": false,
+  "standard_claims_present": [
+    "exp",
+    "iss",
+    "sub",
+    "iat",
+    "aud"
+  ]
+}</pre></details><p><b>Recommendation:</b> Validate signatures with a fixed algorithm allowlist and expected issuer/audience on the server; enforce required claims and minimize payload data.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>6. Potential cross-user object access (BOLA)</h3><span class="badge High">High</span> <span class="badge">High confidence</span><p class="muted">Authorization · GET /api/objects/101 · Potential issue</p><p>Two verified test users received the configured owner&#39;s object. Confirm that sharing is prohibited by policy.</p><p><b>Severity rationale:</b> Controlled users received the same configured private object.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "identities_verified": true,
+  "object_and_owner_match": true,
+  "observations": [
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/objects/101",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/objects/101",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    }
+  ]
+}</pre></details><p><b>Recommendation:</b> Check the object&#39;s owner or access policy on every request before returning it.</p><p class="muted">CWE-639 · API1:2023 Broken Object Level Authorization</p></article><article><h3>7. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/public · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/public",
+  "error": null,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "missing": [
+    "x-content-type-options"
+  ],
+  "status": 200,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>8. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/me · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/me",
+  "error": null,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "missing": [
+    "x-content-type-options"
+  ],
+  "status": 401,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>9. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/protected · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/protected",
+  "error": null,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "missing": [
+    "x-content-type-options"
+  ],
+  "status": 401,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>10. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/auth-missing · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/auth-missing",
+  "error": null,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "missing": [
+    "x-content-type-options"
+  ],
+  "status": 200,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>11. Possible missing authentication enforcement</h3><span class="badge Medium">Medium</span> <span class="badge">Medium confidence</span><p class="muted">Authentication · GET /api/auth-missing · Potential issue</p><p>A documented protected endpoint returned identical JSON with and without credentials. A valid identity and intended privacy need manual confirmation.</p><p><b>Severity rationale:</b> Anonymous access matched an authenticated response on a documented protected endpoint; intended access still needs validation.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "anonymous": {
+    "elapsed_ms": 2,
+    "endpoint": "/api/auth-missing",
+    "error": null,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "method": "GET",
+    "status": 200,
+    "truncated": false
+  },
+  "authenticated": {
+    "elapsed_ms": 2,
+    "endpoint": "/api/auth-missing",
+    "error": null,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "method": "GET",
+    "status": 200,
+    "truncated": false
+  },
+  "json_equal": true
+}</pre></details><p><b>Recommendation:</b> Validate the configured identity and require authentication for private resources.</p><p class="muted">CWE-306 · API2:2023 Broken Authentication</p></article><article><h3>12. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/cors · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/cors",
+  "error": null,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "missing": [
+    "x-content-type-options"
+  ],
+  "status": 401,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>13. Untrusted origin allowed with credentials</h3><span class="badge Medium">Medium</span> <span class="badge">Medium confidence</span><p class="muted">CORS · GET /api/cors · Potential issue</p><p>This response permits the test origin with credentials. Exploitation also requires browser-sent credentials and sensitive readable data; bearer tokens are not automatically sent cross-origin.</p><p><b>Severity rationale:</b> An untrusted origin was allowed with credentials; browser and sensitive-data checks remain necessary.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/cors",
+  "error": null,
+  "headers": {
+    "access-control-allow-credentials": "true",
+    "access-control-allow-headers": "Authorization, Content-Type",
+    "access-control-allow-methods": "GET, OPTIONS",
+    "access-control-allow-origin": "https://untrusted.example",
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "status": 200,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Use an exact trusted-origin allowlist and validate actual browser credential behavior.</p><p class="muted">CWE-942 · API8:2023 Security Misconfiguration</p></article><article><h3>14. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/html · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/html",
+  "error": null,
+  "headers": {
+    "content-type": "text/html; charset=utf-8"
+  },
+  "method": "GET",
+  "missing": [
+    "content-security-policy",
+    "referrer-policy",
+    "x-content-type-options",
+    "x-frame-options"
+  ],
+  "status": 200,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>15. Context-relevant security headers absent</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Security headers · GET /api/search · Hardening observation</p><p>Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.</p><p><b>Severity rationale:</b> Header relevance depends on HTTPS and browser-rendered content.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "elapsed_ms": 2,
+  "endpoint": "/api/search",
+  "error": null,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "method": "GET",
+  "missing": [
+    "x-content-type-options"
+  ],
+  "status": 200,
+  "truncated": false
+}</pre></details><p><b>Recommendation:</b> Review response type and browser use; add appropriate headers.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article><article><h3>16. Rate limiting observed</h3><span class="badge Informational">Informational</span> <span class="badge">High confidence</span><p class="muted">Rate limiting · GET /api/limited · Observation</p><p>This sample does not establish a global threshold or absence of protection. No further requests are sent after a stop condition.</p><p><b>Severity rationale:</b> A small sample cannot establish the absence of rate limiting.</p><details open><summary>Evidence (minimized)</summary><pre>{
+  "observations": [
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/limited",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/limited",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 1,
+      "endpoint": "/api/limited",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/limited",
+      "error": null,
+      "headers": {
+        "content-type": "application/json",
+        "retry-after": "28"
+      },
+      "method": "GET",
+      "status": 429,
+      "truncated": false
+    }
+  ],
+  "requested_count": 5
+}</pre></details><p><b>Recommendation:</b> Compare with the documented quota, identity/IP bucket and time window.</p><p class="muted">CWE not assigned · OWASP category not assigned</p></article>
+<h2>Coverage and observations</h2><pre>{
+  "bola": {
+    "observations": [
+      {
+        "elapsed_ms": 2,
+        "endpoint": "/api/me",
+        "error": null,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "method": "GET",
+        "status": 200,
+        "truncated": false
+      },
+      {
+        "elapsed_ms": 2,
+        "endpoint": "/api/me",
+        "error": null,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "method": "GET",
+        "status": 200,
+        "truncated": false
+      },
+      {
+        "elapsed_ms": 2,
+        "endpoint": "/api/objects/101",
+        "error": null,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "method": "GET",
+        "status": 200,
+        "truncated": false
+      },
+      {
+        "elapsed_ms": 2,
+        "endpoint": "/api/objects/101",
+        "error": null,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "method": "GET",
+        "status": 200,
+        "truncated": false
+      }
+    ],
+    "outcome": "Potential BOLA"
+  },
+  "observations": [
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/public",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/public",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/public",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/public",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/public",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 401,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/me",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/protected",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 401,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/protected",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/protected",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/protected",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/protected",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/auth-missing",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/auth-missing",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/auth-missing",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/auth-missing",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/auth-missing",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/cors",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 401,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/cors",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/cors",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/cors",
+      "error": null,
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "access-control-allow-headers": "Authorization, Content-Type",
+        "access-control-allow-methods": "GET, OPTIONS",
+        "access-control-allow-origin": "https://untrusted.example",
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/cors",
+      "error": null,
+      "headers": {
+        "access-control-allow-credentials": "true",
+        "access-control-allow-headers": "Authorization, Content-Type",
+        "access-control-allow-methods": "GET, OPTIONS",
+        "access-control-allow-origin": "https://untrusted.example",
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/html",
+      "error": null,
+      "headers": {
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/html",
+      "error": null,
+      "headers": {
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/html",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/html",
+      "error": null,
+      "headers": {
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/html",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/search",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/search",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/search",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/search",
+      "error": null,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "method": "GET",
+      "status": 200,
+      "truncated": false
+    },
+    {
+      "elapsed_ms": 2,
+      "endpoint": "/api/search",
+      "error": null,
+      "headers": {
+        "allow": "HEAD, OPTIONS, GET",
+        "content-type": "text/html; charset=utf-8"
+      },
+      "method": "OPTIONS",
+      "status": 200,
+      "truncated": false
+    }
+  ],
+  "rate_test": "Requested; see finding evidence and stop conditions",
+  "requests_sent": 43,
+  "skipped": [
+    {
+      "method": "GET",
+      "path": "/api/objects/{object_id}",
+      "reason": "Non-GET or unresolved template; no active request"
+    },
+    {
+      "method": "GET",
+      "path": "/api/safe-objects/{object_id}",
+      "reason": "Non-GET or unresolved template; no active request"
+    },
+    {
+      "method": "POST",
+      "path": "/api/login",
+      "reason": "Non-GET or unresolved template; no active request"
+    }
+  ],
+  "stop_reason": "Stopped after HTTP 429 or server error"
+}</pre><h2>Documentation metadata</h2><pre>{
+  "limitations": "OpenAPI 3 server base paths/variables and non-JSON request media types are not expanded. Use explicit endpoint lists. External refs are rejected.",
+  "security_schemes": {
+    "bearerAuth": {
+      "bearerFormat": "JWT",
+      "scheme": "bearer",
+      "type": "http"
+    }
+  },
+  "server_urls_used": false,
+  "version": "3.0.3"
+}</pre><h2>Limitations</h2><ul><li>Automated candidates require manual validation and business-policy context. No finding does not establish safety.</li><li>Documentation is not proof of deployment. OpenAPI 3 server URLs/base paths/variables are not followed; supply explicit paths where needed.</li><li>Active discovery is limited to supplied concrete GET endpoints. Non-GET and unresolved path templates are skipped; no injection attacks.</li><li>JWT claims are unverified; CORS headers alone do not demonstrate browser exploitation.</li><li>No raw bodies or credentials are persisted. Evidence is deliberately minimized; retain manual evidence privately if required.</li><li>TLS verification stays enabled, redirects/proxies are disabled, responses are capped at 256 KiB; truncation/timeouts reduce coverage.</li><li>Requests timeout is an inactivity limit, not a strict whole-run deadline. Read loop also limits elapsed response processing.</li><li>Single-threaded, at most 200 requests per run, minimum 0.2 seconds apart. No retries after 429, 5xx or transport errors.</li></ul><footer>API Security Assessment Toolkit · Evidence excludes response bodies and credentials by design.</footer></main></body></html>

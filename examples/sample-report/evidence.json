@@ -1,0 +1,1160 @@
+{
+  "target": "http://127.0.0.1:35945",
+  "date": "2026-10-07T07:19:38.635768+00:00",
+  "scope": "SYNTHETIC LOCAL-LAB EXAMPLE \u2014 generated during verification. Supplied paths on one configured origin; explicit two-user object and rate checks only when requested. No crawling or guessing.",
+  "methodology": "Documentation review; serial GET/OPTIONS observations; optional authenticated comparisons, one BOLA case, offline JWT inspection and a bounded rate sample.",
+  "endpoints": [
+    {
+      "path": "/api/public",
+      "method": "GET",
+      "authentication": "Anonymous allowed by documentation",
+      "parameters": [],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/me",
+      "method": "GET",
+      "authentication": "Required by documentation",
+      "parameters": [],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/protected",
+      "method": "GET",
+      "authentication": "Required by documentation",
+      "parameters": [],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/auth-missing",
+      "method": "GET",
+      "authentication": "Required by documentation",
+      "parameters": [],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/cors",
+      "method": "GET",
+      "authentication": "Required by documentation",
+      "parameters": [],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/html",
+      "method": "GET",
+      "authentication": "Anonymous allowed by documentation",
+      "parameters": [],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/search",
+      "method": "GET",
+      "authentication": "Anonymous allowed by documentation",
+      "parameters": [
+        {
+          "name": "q",
+          "in": "query",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "type": "integer",
+          "required": false
+        }
+      ],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": false
+    },
+    {
+      "path": "/api/objects/{object_id}",
+      "method": "GET",
+      "authentication": "Required by documentation",
+      "parameters": [
+        {
+          "name": "object_id",
+          "in": "path",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": true
+    },
+    {
+      "path": "/api/safe-objects/{object_id}",
+      "method": "GET",
+      "authentication": "Required by documentation",
+      "parameters": [
+        {
+          "name": "object_id",
+          "in": "path",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "response_statuses": [
+        "200",
+        "404"
+      ],
+      "request_schema_present": false,
+      "response_schema_present": true
+    },
+    {
+      "path": "/api/login",
+      "method": "POST",
+      "authentication": "Anonymous allowed by documentation",
+      "parameters": [
+        {
+          "name": "username",
+          "in": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "password",
+          "in": "body",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "response_statuses": [
+        "200"
+      ],
+      "request_schema_present": true,
+      "response_schema_present": false
+    }
+  ],
+  "findings": [
+    {
+      "title": "Operation permits anonymous access in documentation",
+      "category": "OpenAPI",
+      "severity": "Informational",
+      "endpoint": "/api/public",
+      "method": "GET",
+      "description": "This may be intentional for a public operation.",
+      "evidence": {
+        "anonymous_allowed": true
+      },
+      "recommendation": "Confirm intended access with the API owner.",
+      "confidence": "Low",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Documentation finding",
+      "severity_reason": "Documentation is not evidence of deployed behavior."
+    },
+    {
+      "title": "Operation permits anonymous access in documentation",
+      "category": "OpenAPI",
+      "severity": "Informational",
+      "endpoint": "/api/html",
+      "method": "GET",
+      "description": "This may be intentional for a public operation.",
+      "evidence": {
+        "anonymous_allowed": true
+      },
+      "recommendation": "Confirm intended access with the API owner.",
+      "confidence": "Low",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Documentation finding",
+      "severity_reason": "Documentation is not evidence of deployed behavior."
+    },
+    {
+      "title": "Operation permits anonymous access in documentation",
+      "category": "OpenAPI",
+      "severity": "Informational",
+      "endpoint": "/api/search",
+      "method": "GET",
+      "description": "This may be intentional for a public operation.",
+      "evidence": {
+        "anonymous_allowed": true
+      },
+      "recommendation": "Confirm intended access with the API owner.",
+      "confidence": "Low",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Documentation finding",
+      "severity_reason": "Documentation is not evidence of deployed behavior."
+    },
+    {
+      "title": "Operation permits anonymous access in documentation",
+      "category": "OpenAPI",
+      "severity": "Informational",
+      "endpoint": "/api/login",
+      "method": "POST",
+      "description": "This may be intentional for a public operation.",
+      "evidence": {
+        "anonymous_allowed": true
+      },
+      "recommendation": "Confirm intended access with the API owner.",
+      "confidence": "Low",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Documentation finding",
+      "severity_reason": "Documentation is not evidence of deployed behavior."
+    },
+    {
+      "title": "JWT configuration review",
+      "category": "JWT",
+      "severity": "Informational",
+      "endpoint": "local token",
+      "method": "N/A",
+      "description": "Decoded claims are untrusted. This is a JWT configuration finding, not a confirmed vulnerability. No server acceptance or signature validation was tested.",
+      "evidence": {
+        "signature_verified": false,
+        "algorithm": "HS256",
+        "standard_claims_present": [
+          "exp",
+          "iss",
+          "sub",
+          "iat",
+          "aud"
+        ],
+        "issues": []
+      },
+      "recommendation": "Validate signatures with a fixed algorithm allowlist and expected issuer/audience on the server; enforce required claims and minimize payload data.",
+      "confidence": "Low",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "JWT configuration finding",
+      "severity_reason": "Documentation is not evidence of deployed behavior."
+    },
+    {
+      "title": "Potential cross-user object access (BOLA)",
+      "category": "Authorization",
+      "severity": "High",
+      "endpoint": "/api/objects/101",
+      "method": "GET",
+      "description": "Two verified test users received the configured owner's object. Confirm that sharing is prohibited by policy.",
+      "evidence": {
+        "observations": [
+          {
+            "method": "GET",
+            "endpoint": "/api/me",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          },
+          {
+            "method": "GET",
+            "endpoint": "/api/me",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          },
+          {
+            "method": "GET",
+            "endpoint": "/api/objects/101",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          },
+          {
+            "method": "GET",
+            "endpoint": "/api/objects/101",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          }
+        ],
+        "identities_verified": true,
+        "object_and_owner_match": true
+      },
+      "recommendation": "Check the object's owner or access policy on every request before returning it.",
+      "confidence": "High",
+      "cwe": "CWE-639",
+      "owasp_api": "API1:2023 Broken Object Level Authorization",
+      "classification": "Potential issue",
+      "severity_reason": "Controlled users received the same configured private object."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/public",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/public",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "x-content-type-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/me",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/me",
+        "status": 401,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "x-content-type-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/protected",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/protected",
+        "status": 401,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "x-content-type-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/auth-missing",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/auth-missing",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "x-content-type-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Possible missing authentication enforcement",
+      "category": "Authentication",
+      "severity": "Medium",
+      "endpoint": "/api/auth-missing",
+      "method": "GET",
+      "description": "A documented protected endpoint returned identical JSON with and without credentials. A valid identity and intended privacy need manual confirmation.",
+      "evidence": {
+        "anonymous": {
+          "method": "GET",
+          "endpoint": "/api/auth-missing",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json"
+          },
+          "error": null,
+          "truncated": false,
+          "elapsed_ms": 2
+        },
+        "authenticated": {
+          "method": "GET",
+          "endpoint": "/api/auth-missing",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json"
+          },
+          "error": null,
+          "truncated": false,
+          "elapsed_ms": 2
+        },
+        "json_equal": true
+      },
+      "recommendation": "Validate the configured identity and require authentication for private resources.",
+      "confidence": "Medium",
+      "cwe": "CWE-306",
+      "owasp_api": "API2:2023 Broken Authentication",
+      "classification": "Potential issue",
+      "severity_reason": "Anonymous access matched an authenticated response on a documented protected endpoint; intended access still needs validation."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/cors",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/cors",
+        "status": 401,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "x-content-type-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Untrusted origin allowed with credentials",
+      "category": "CORS",
+      "severity": "Medium",
+      "endpoint": "/api/cors",
+      "method": "GET",
+      "description": "This response permits the test origin with credentials. Exploitation also requires browser-sent credentials and sensitive readable data; bearer tokens are not automatically sent cross-origin.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/cors",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "https://untrusted.example",
+          "access-control-allow-credentials": "true",
+          "access-control-allow-methods": "GET, OPTIONS",
+          "access-control-allow-headers": "Authorization, Content-Type"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      "recommendation": "Use an exact trusted-origin allowlist and validate actual browser credential behavior.",
+      "confidence": "Medium",
+      "cwe": "CWE-942",
+      "owasp_api": "API8:2023 Security Misconfiguration",
+      "classification": "Potential issue",
+      "severity_reason": "An untrusted origin was allowed with credentials; browser and sensitive-data checks remain necessary."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/html",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/html",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "content-security-policy",
+          "referrer-policy",
+          "x-content-type-options",
+          "x-frame-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Context-relevant security headers absent",
+      "category": "Security headers",
+      "severity": "Informational",
+      "endpoint": "/api/search",
+      "method": "GET",
+      "description": "Missing headers are hardening observations, not proof of an exploitable API flaw. CSP and framing headers are mainly relevant to browser-rendered HTML; HSTS only to HTTPS.",
+      "evidence": {
+        "method": "GET",
+        "endpoint": "/api/search",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2,
+        "missing": [
+          "x-content-type-options"
+        ]
+      },
+      "recommendation": "Review response type and browser use; add appropriate headers.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Hardening observation",
+      "severity_reason": "Header relevance depends on HTTPS and browser-rendered content."
+    },
+    {
+      "title": "Rate limiting observed",
+      "category": "Rate limiting",
+      "severity": "Informational",
+      "endpoint": "/api/limited",
+      "method": "GET",
+      "description": "This sample does not establish a global threshold or absence of protection. No further requests are sent after a stop condition.",
+      "evidence": {
+        "requested_count": 5,
+        "observations": [
+          {
+            "method": "GET",
+            "endpoint": "/api/limited",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          },
+          {
+            "method": "GET",
+            "endpoint": "/api/limited",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          },
+          {
+            "method": "GET",
+            "endpoint": "/api/limited",
+            "status": 200,
+            "headers": {
+              "content-type": "application/json"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 1
+          },
+          {
+            "method": "GET",
+            "endpoint": "/api/limited",
+            "status": 429,
+            "headers": {
+              "content-type": "application/json",
+              "retry-after": "28"
+            },
+            "error": null,
+            "truncated": false,
+            "elapsed_ms": 2
+          }
+        ]
+      },
+      "recommendation": "Compare with the documented quota, identity/IP bucket and time window.",
+      "confidence": "High",
+      "cwe": null,
+      "owasp_api": null,
+      "classification": "Observation",
+      "severity_reason": "A small sample cannot establish the absence of rate limiting."
+    }
+  ],
+  "metadata": {
+    "version": "3.0.3",
+    "security_schemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "server_urls_used": false,
+    "limitations": "OpenAPI 3 server base paths/variables and non-JSON request media types are not expanded. Use explicit endpoint lists. External refs are rejected."
+  },
+  "coverage": {
+    "requests_sent": 43,
+    "observations": [
+      {
+        "method": "GET",
+        "endpoint": "/api/public",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/public",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/public",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/public",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/public",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/me",
+        "status": 401,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/me",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/me",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/me",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/me",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/protected",
+        "status": 401,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/protected",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/protected",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/protected",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/protected",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/auth-missing",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/auth-missing",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/auth-missing",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/auth-missing",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/auth-missing",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/cors",
+        "status": 401,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/cors",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/cors",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/cors",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "access-control-allow-origin": "https://untrusted.example",
+          "access-control-allow-credentials": "true",
+          "access-control-allow-methods": "GET, OPTIONS",
+          "access-control-allow-headers": "Authorization, Content-Type"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/cors",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET",
+          "access-control-allow-origin": "https://untrusted.example",
+          "access-control-allow-credentials": "true",
+          "access-control-allow-methods": "GET, OPTIONS",
+          "access-control-allow-headers": "Authorization, Content-Type"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/html",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/html",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/html",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/html",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/html",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/search",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/search",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/search",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "GET",
+        "endpoint": "/api/search",
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      },
+      {
+        "method": "OPTIONS",
+        "endpoint": "/api/search",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "allow": "HEAD, OPTIONS, GET"
+        },
+        "error": null,
+        "truncated": false,
+        "elapsed_ms": 2
+      }
+    ],
+    "skipped": [
+      {
+        "path": "/api/objects/{object_id}",
+        "method": "GET",
+        "reason": "Non-GET or unresolved template; no active request"
+      },
+      {
+        "path": "/api/safe-objects/{object_id}",
+        "method": "GET",
+        "reason": "Non-GET or unresolved template; no active request"
+      },
+      {
+        "path": "/api/login",
+        "method": "POST",
+        "reason": "Non-GET or unresolved template; no active request"
+      }
+    ],
+    "bola": {
+      "outcome": "Potential BOLA",
+      "observations": [
+        {
+          "method": "GET",
+          "endpoint": "/api/me",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json"
+          },
+          "error": null,
+          "truncated": false,
+          "elapsed_ms": 2
+        },
+        {
+          "method": "GET",
+          "endpoint": "/api/me",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json"
+          },
+          "error": null,
+          "truncated": false,
+          "elapsed_ms": 2
+        },
+        {
+          "method": "GET",
+          "endpoint": "/api/objects/101",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json"
+          },
+          "error": null,
+          "truncated": false,
+          "elapsed_ms": 2
+        },
+        {
+          "method": "GET",
+          "endpoint": "/api/objects/101",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json"
+          },
+          "error": null,
+          "truncated": false,
+          "elapsed_ms": 2
+        }
+      ]
+    },
+    "rate_test": "Requested; see finding evidence and stop conditions",
+    "stop_reason": "Stopped after HTTP 429 or server error"
+  },
+  "limitations": [
+    "Automated candidates require manual validation and business-policy context. No finding does not establish safety.",
+    "Documentation is not proof of deployment. OpenAPI 3 server URLs/base paths/variables are not followed; supply explicit paths where needed.",
+    "Active discovery is limited to supplied concrete GET endpoints. Non-GET and unresolved path templates are skipped; no injection attacks.",
+    "JWT claims are unverified; CORS headers alone do not demonstrate browser exploitation.",
+    "No raw bodies or credentials are persisted. Evidence is deliberately minimized; retain manual evidence privately if required.",
+    "TLS verification stays enabled, redirects/proxies are disabled, responses are capped at 256 KiB; truncation/timeouts reduce coverage.",
+    "Requests timeout is an inactivity limit, not a strict whole-run deadline. Read loop also limits elapsed response processing.",
+    "Single-threaded, at most 200 requests per run, minimum 0.2 seconds apart. No retries after 429, 5xx or transport errors."
+  ],
+  "severity_summary": {
+    "Critical": 0,
+    "High": 1,
+    "Medium": 2,
+    "Low": 0,
+    "Informational": 13
+  }
+}

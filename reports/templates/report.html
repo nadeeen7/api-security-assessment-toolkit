@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'none'; base-uri 'none'; form-action 'none'">
+<title>API Security Assessment</title><style>
+:root{color-scheme:dark;--bg:#0d1117;--surface:#161b22;--surface2:#1c2333;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--accent:#58a6ff;--accent2:#3fb950;--eyebrow:#79c0ff;--header-bg:linear-gradient(135deg,#0d2137 0%,#0f2c47 50%,#0a1f35 100%);--header-border:#1f6feb;--badge-bg:#21262d;--code-bg:#161b22;--H-bg:#3d1a1a;--H-c:#ff7b72;--M-bg:#2d2005;--M-c:#e3b341;--L-bg:#0d2d4a;--L-c:#58a6ff;--I-bg:#1f2937;--I-c:#8b949e;--table-head:#1c2333;--row-hover:#1f2937;--green:#3fb950;--tag-bg:#21262d;--shadow:0 1px 3px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}
+main{max-width:1200px;margin:auto;padding:40px 24px}
+header{background:var(--header-bg);border:1px solid var(--header-border);border-radius:16px;padding:36px;box-shadow:var(--shadow)}
+h1{font-size:34px;line-height:1.2;margin:8px 0;background:linear-gradient(90deg,#e6edf3,#79c0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2{margin:36px 0 14px;font-size:22px;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:8px}
+h3{margin:0 0 12px;font-size:18px}
+.eyebrow{color:var(--eyebrow);font-size:12px;letter-spacing:2.5px;font-weight:600;text-transform:uppercase}
+.meta{color:var(--muted);font-size:14px;margin:4px 0}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:28px 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:var(--shadow);transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px}
+.card strong{display:block;font-size:32px;font-weight:700;line-height:1}
+.panel,.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.table-wrap{padding:0;overflow:hidden}
+.table-wrap table{width:100%;border-collapse:collapse;background:transparent}
+th,td{padding:12px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+th{background:var(--table-head);font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600}
+tr:hover td{background:var(--row-hover)}
+tr:last-child td{border-bottom:none}
+article{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin:16px 0;box-shadow:var(--shadow);border-left:4px solid var(--accent)}
+article.High{border-left-color:#ff7b72}
+article.Medium{border-left-color:#e3b341}
+article.Low{border-left-color:#58a6ff}
+article.Informational{border-left-color:#8b949e}
+.badge{display:inline-block;border-radius:6px;background:var(--badge-bg);padding:3px 10px;font-weight:600;font-size:12px;letter-spacing:.5px;border:1px solid var(--border)}
+.badge.High{background:var(--H-bg);color:var(--H-c);border-color:#ff7b7230}
+.badge.Medium{background:var(--M-bg);color:var(--M-c);border-color:#e3b34130}
+.badge.Low{background:var(--L-bg);color:var(--L-c);border-color:#58a6ff30}
+.badge.Informational{background:var(--I-bg);color:var(--I-c)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--code-bg);border:1px solid var(--border);padding:16px;border-radius:8px;font-size:13px;color:#c9d1d9;font-family:ui-monospace,monospace}
+p,td{overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:13px}
+.status-ok{color:var(--green);font-weight:600}
+.status-err{color:var(--H-c);font-weight:600}
+.status-warn{color:var(--M-c);font-weight:600}
+.status-none{color:var(--muted);font-style:italic}
+.tag{display:inline-block;background:var(--tag-bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:12px;font-family:ui-monospace,monospace;color:var(--muted)}
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);text-align:center}
+details summary{cursor:pointer;color:var(--accent);font-weight:500;margin-bottom:8px}
+details[open] summary{color:var(--eyebrow)}
+@media(max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}main{padding:16px}h1{font-size:24px}}
+@media print{body{background:white;color:black}main{padding:0}header{background:white;border:1px solid #ccc;color:black}article{break-inside:avoid}.card,.panel,.table-wrap{border:1px solid #ccc}}
+</style></head><body><main>
+<header>
+  <div class="eyebrow">Authorized Assessment &bull; Controlled Testing &bull; Local Lab</div>
+  <h1>API Security Assessment</h1>
+  <p class="meta"><strong>Target:</strong> {{ report.target }}</p>
+  <p class="meta"><strong>Date:</strong> {{ report.date }}</p>
+</header>
+
+<div class="cards">
+{% for severity, count in report.severity_summary.items() %}
+<div class="card">
+  <span>{{ severity }}</span>
+  <strong class="{% if severity == 'High' %}status-err{% elif severity == 'Medium' %}status-warn{% elif severity == 'Low' %}status-ok{% else %}status-none{% endif %}">{{ count }}</strong>
+</div>
+{% endfor %}
+</div>
+
+<section class="panel"><h3>Scope</h3><p>{{ report.scope }}</p><h3>Methodology</h3><p>{{ report.methodology }}</p></section>
+
+<h2>Endpoint Summary</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Method</th><th>Endpoint</th><th>Actual Status</th><th>Authentication</th><th>Result / Note</th></tr></thead>
+<tbody>
+{% for e in report.endpoints %}
+<tr>
+  <td><span class="tag">{{ e.method }}</span></td>
+  <td>{{ e.path }}{% if e.resolved_path and e.resolved_path != e.path %}<br><small class="muted">Example: {{ e.resolved_path }}</small>{% endif %}</td>
+  <td>
+    {% if e.actual_status is defined and e.actual_status is not none %}
+      {% set s = e.actual_status | int %}
+      {% if s >= 200 and s < 300 %}<span class="status-ok">HTTP {{ s }}</span>
+      {% elif s >= 400 and s < 500 %}<span class="status-warn">HTTP {{ s }}</span>
+      {% elif s >= 500 %}<span class="status-err">HTTP {{ s }}</span>
+      {% else %}<span>HTTP {{ s }}</span>{% endif %}
+    {% elif e.check_status == 'skipped' %}<span class="status-none">Not observed</span>
+    {% else %}<span class="status-none">Not observed</span>
+    {% endif %}
+  </td>
+  <td>{{ e.authentication or '—' }}{% if e.authenticated and e.authenticated != 'Skipped' and e.authenticated != 'No' %}<br><small class="muted">Auth sent: {{ e.authenticated }}</small>{% endif %}</td>
+  <td>{% if e.check_status %}<span class="badge {{ e.check_status|title }}">{{ e.check_status|upper }}</span> {% endif %}{{ e.check_reason or '—' }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table></div>
+
+<h2>Findings &middot; {{ report.findings|length }}</h2>
+{% for f in report.findings %}
+<article class="{{ f.severity }}">
+  <h3>{{ loop.index }}. {{ f.title }}</h3>
+  <span class="badge {{ f.severity }}">{{ f.severity }}</span>
+  <span class="badge">{{ f.confidence }} confidence</span>
+  <p class="muted">{{ f.category }} &bull; <span class="tag">{{ f.method }}</span> {{ f.endpoint }} &bull; {{ f.classification }}</p>
+  <p>{{ f.description }}</p>
+  <p><b>Severity rationale:</b> {{ f.severity_reason }}</p>
+  <details open><summary>Evidence (minimized)</summary><pre>{{ f.evidence|tojson(indent=2) }}</pre></details>
+  <p><b>Recommendation:</b> {{ f.recommendation }}</p>
+  <p class="muted">{{ f.cwe or 'CWE not assigned' }} &bull; {{ f.owasp_api or 'OWASP category not assigned' }}</p>
+</article>
+{% else %}
+<p>No findings generated. This is not a security certification.</p>
+{% endfor %}
+
+<h2>Test Coverage</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Test</th><th>Status</th><th>Findings</th><th>Reason / Note</th></tr></thead>
+<tbody>
+{% for t in report.coverage.tests %}
+<tr>
+  <td><span class="tag">{{ t.key }}</span></td>
+  <td><span class="badge {% if t.status == 'finding' %}Medium{% elif t.status == 'passed' %}Low{% elif t.status == 'skipped' %}Informational{% elif t.status == 'failed' %}High{% endif %}">{{ t.status }}</span></td>
+  <td>{{ t.findings }}</td>
+  <td>{{ t.reason or '—' }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table></div>
+
+<h2>Coverage &amp; Observations</h2><pre>{{ report.coverage|tojson(indent=2) }}</pre>
+<h2>Documentation Metadata</h2><pre>{{ report.metadata|tojson(indent=2) }}</pre>
+<h2>Limitations</h2><ul>{% for item in report.limitations %}<li>{{ item }}</li>{% endfor %}</ul>
+<footer>API Security Assessment Toolkit &bull; Evidence excludes response bodies and credentials by design &bull; Dark theme report</footer>
+</main></body></html>

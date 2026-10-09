@@ -1,0 +1,22 @@
+{
+  "identities": {
+    "alice": {
+      "token_file": "../.local/alice.token"
+    },
+    "bob": {
+      "token_file": "../.local/bob.token"
+    }
+  },
+  "default_identity": "alice",
+  "bola": {
+    "path": "/api/safe-objects/101",
+    "identity_path": "/api/me",
+    "owner_identity": "alice",
+    "other_identity": "bob",
+    "owner_subject": "alice",
+    "other_subject": "bob",
+    "expected_object_id": 101,
+    "id_field": "id",
+    "owner_field": "owner"
+  }
+}

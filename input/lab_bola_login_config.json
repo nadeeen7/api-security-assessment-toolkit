@@ -1,0 +1,14 @@
+﻿{
+  "bola": {
+    "login_endpoint": "/api/login",
+    "owner_credentials": {"username": "alice", "password": "alice-lab-only"},
+    "other_credentials": {"username": "bob",   "password": "bob-lab-only"},
+    "path": "/api/objects/101",
+    "identity_path": "/api/me",
+    "owner_subject": "alice",
+    "other_subject": "bob",
+    "expected_object_id": 101,
+    "id_field": "id",
+    "owner_field": "owner"
+  }
+}

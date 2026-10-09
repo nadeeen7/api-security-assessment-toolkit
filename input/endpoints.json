@@ -1,0 +1,8 @@
+[
+  {
+    "path": "/api/public"
+  },
+  {
+    "path": "/api/search?q=demo&limit=5"
+  }
+]

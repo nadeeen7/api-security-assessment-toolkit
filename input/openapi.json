@@ -1,0 +1,247 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Local Learning API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/public": {
+      "get": {
+        "summary": "public",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/me": {
+      "get": {
+        "summary": "me",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/protected": {
+      "get": {
+        "summary": "protected",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth-missing": {
+      "get": {
+        "summary": "auth-missing",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/cors": {
+      "get": {
+        "summary": "cors",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/html": {
+      "get": {
+        "summary": "html",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/search": {
+      "get": {
+        "summary": "search",
+        "responses": {
+          "200": {
+            "description": "Synthetic response"
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ]
+      }
+    },
+    "/api/objects/{object_id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "example": 101,
+            "schema": {
+              "type": "integer",
+              "example": 101
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One synthetic object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/safe-objects/{object_id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "example": 101,
+            "schema": {
+              "type": "integer",
+              "example": 101
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One synthetic object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lab JWT"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Object": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
